@@ -4,10 +4,7 @@ import com.example.employeemanager.emProject.dao.EmployeeDAO;
 import com.example.employeemanager.emProject.entity.Employee;
 import com.example.employeemanager.emProject.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,4 +42,24 @@ public class EmployeeRestController {
         return theEmployee;
     }
 
+    //add mapping for POST/employees -> add new employee
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee theEmployee){
+        //in case an id is passed in JSON set it to zero
+        //this will force a save instead of an update
+
+        theEmployee.setId(0);
+        Employee dbEmployee=employeeService.save(theEmployee);
+
+        return dbEmployee;
+    }
+
+    //add mapping for updating employee
+    //using PUT HTTP Method
+    // PUT/employees
+    @PutMapping("/employees")
+    public Employee updateEmployee(@RequestBody Employee theEmployee){
+        Employee dbEmployee=employeeService.save(theEmployee);
+        return dbEmployee;//updated employee
+    }
 }
